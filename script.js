@@ -1,29 +1,49 @@
+const URL = "http://localhost:3000/posts"
 
-const btnEL = document.querySelector('.toggle')
 
-// var const let => 
-let isShown = false 
-const  onClickHandler = (event) => {
-    // Element is hidden 
-    if (isShown === false )  {
-        $('#first-box').show()
-        isShown = true 
-    }
-    else {
-        $('#first-box').hide()
-        isShown = false
-    }
-
+const buildCard = (id , title , views) => {
+    return `<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${id}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+    <p class="card-text">${title}</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">${views}</a>
+  </div>
+</div>
+    
+    `
 }
 
 
 
-setTimeout(()=> {
+
+const loadInfo  = () => {
+    $.ajax({
+        url : URL ,
+        method : "GET" ,
+        dataType : 'json' ,
+
+        success : (response)=> {
+            const array  = response
+            for (let i = 0 ; i<array.length ;++i){
+                const singleComment  = response[i]
+                console.log(singleComment)
+                // const id  =  singleComment.id
+                // const text = singleComment.text
+                // const postId = singleComment.postId
+
+                const {id , title , views} = singleComment
+
+                const commentHTML = buildCard(id,title,views)
+                $('#comments').append(commentHTML)
+                // console.log(singleComment['text'])
+            }
+
+        }
+    })
+}
 
 
-    $('.lightbox').show()
-    // $('.lightbox').fadeIn(3000)
 
-} , 5000)
-// btnEL.onClick = onClickHandler
-btnEL.addEventListener('click',onClickHandler)
+$('#load-btn').on('click' , loadInfo)

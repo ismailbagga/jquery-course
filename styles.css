@@ -3,6 +3,12 @@
     height: 300px;
 } 
 
+.red-box {
+    background: red !important;
+}
+.blue-box {
+    background: rgb(74, 89, 254) !important;
+}
 .lightbox {
     display: none;
     position: fixed;
